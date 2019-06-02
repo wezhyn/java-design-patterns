@@ -22,6 +22,7 @@
  */
 package com.iluwatar.bridge;
 
+import com.iluwatar.bridge.attempt.HammerFlyingEnchantment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,5 +60,12 @@ public class App {
     hammer.wield();
     hammer.swing();
     hammer.unwield();
+
+
+    LOGGER.info("The valkyrie receives an enchanted hammer again.");
+    HammerFlyingEnchantment hammerFlyingEnchantment=new HammerFlyingEnchantment();
+    hammerFlyingEnchantment.wield();
+    hammerFlyingEnchantment.swing();
+    hammerFlyingEnchantment.unwield();
   }
 }

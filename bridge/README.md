@@ -16,6 +16,8 @@ Handle/Body
 ## Intent
 Decouple an abstraction from its implementation so that the two can vary independently.
 
+> 将实现与抽象分离，以便两者可以独立变化
+
 ## Explanation
 
 Real world example
@@ -29,6 +31,10 @@ In Plain Words
 Wikipedia says
 
 > The bridge pattern is a design pattern used in software engineering that is meant to "decouple an abstraction from its implementation so that the two can vary independently"
+
+Wezhyn says
+
+> 桥梁模式将继承关系转化成关联关系，是对 *java 多继承*的一种变种实现，但可扩展性更高
 
 **Programmatic Example**
 
@@ -177,9 +183,70 @@ hammer.unwield();
 // The item flies and strikes the enemies finally returning to owner's hand.
 // The hammer is unwielded.
 // The item's glow fades.
+
 ```
 
+### 当不使用桥接模式时
+
+为每一个武器附魔，就需要许许多多的类，例如 Action中的 *Sword 与 SoulEatingEnchantment* ， *Hammer 与 FlyingEnchantment* ,就需要在实现时组合起来，如下
+
+#### HammerFlyingEnchantment
+
+```java
+public class HammerFlyingEnchantment implements Weapon, Enchantment {
+    private static final Logger LOGGER=LoggerFactory.getLogger(Hammer.class);
+
+    @Override
+    public void wield() {
+        LOGGER.info("The hammer is wielded.");
+        onActivate();
+    }
+
+    @Override
+    public void swing() {
+        LOGGER.info("The hammer is swinged.");
+        apply();
+    }
+
+    @Override
+    public void unwield() {
+        LOGGER.info("The hammer is unwielded.");
+        onDeactivate();
+    }
+
+
+    @Override
+    public void onActivate() {
+        LOGGER.info("The item begins to glow faintly.");
+    }
+
+    @Override
+    public void apply() {
+        LOGGER.info("The item flies and strikes the enemies finally returning to owner's hand.");
+    }
+
+    @Override
+    public void onDeactivate() {
+        LOGGER.info("The item's glow fades.");
+    }
+
+    @Override
+    public Enchantment getEnchantment() {
+        return null;
+    }
+}
+```
+
+> 造成了**Hammer**在继承过程中，强制耦合了 *FlyingEnchantment*，在后续扩展Hammer 使用 **SoulEatingEnchantment**时，需要重写一个类，无法更好的扩展
+
+### 优势
+
+桥接模式是为了解决继承的缺点而提出的设计模式，实现类[ *Wapon*子类]可以不受抽象的约束[*Enchantment*]，不用被绑定在一个固定的抽象层次上，将变化的因素包装到最细、最小的逻辑单元中
+
+
+
 ## Applicability
+
 Use the Bridge pattern when
 
 * you want to avoid a permanent binding between an abstraction and its implementation. This might be the case, for example, when the implementation must be selected or switched at run-time.
