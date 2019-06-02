@@ -30,6 +30,9 @@ package com.iluwatar.singleton;
  */
 public enum EnumIvoryTower {
 
+  /**
+   * 实例
+   */
   INSTANCE;
 
   @Override

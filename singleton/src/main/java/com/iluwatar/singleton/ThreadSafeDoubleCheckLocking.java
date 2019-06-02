@@ -45,6 +45,7 @@ public final class ThreadSafeDoubleCheckLocking {
     }
   }
 
+
   /**
    * Public accessor.
    *
